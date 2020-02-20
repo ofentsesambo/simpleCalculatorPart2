@@ -1,50 +1,48 @@
-let Calc = require("../src/simple_calculator.js").default
-// let lator = new Calc()
-// lator.add(0,0)
+describe("the calculations", () => {
+  beforeEach(function() {
+    global.Calc = require("../src/simple_calculator");
+    global.calculator = new Calc();
+  });
+  //add function
+  it("should add two integers", () => {
+    expect(calculator.add(1, 2)).toBe(3);
+  });
 
-describe("add function", function(){
-    it("adds two numbers and returns the sum", function(){
-        expect(Calc.add(0,0)).toBe(0)
-    })
+  it("should add three or more integers", () => {
+    expect(calculator.add(1, 3, 5)).toBe(9);
+  });
 
-    it("adds two negative numbers and returns the sum", function(){
-        expect(Calc.add(-1,-1)).toBe(-2)
-    })
+  //multiply function
+  it("should multiply two integers", () => {
+    expect(calculator.multiply(6, 2)).toBe(12);
+  });
 
-    it("adds two numbers and returns the sum", function(){
-        expect(Calc.add(4,5)).toBe(9)
-    })
+  it("should multiply two or more integers ", () => {
+    expect(calculator.multiply(6, 3, 2)).toBe(36);
+  });
 
-    it("adds multiple numbers and returns the sum", function(){
-        expect(Calc.add(1,2,3,4)).toBe(10)
-    })
-})
+  //last
 
-describe("multiply function", function(){
-    it("multiply two numbers and returns the product", function(){
-        expect(Calc.multiply(1,2)).toBe(2)
-    })
+  it("it should output the last results in the calculator", () => {
+    calculator.add(2, 3);
+    calculator.add(7, 13);
+    expect(calculator.last()).toBe(20);
+  });
 
-    it("multiply multiple numbers and returns the product", function(){
-        expect(Calc.multiply(1,2,3,4)).toBe(24)
-    })
+  // set_slot
+  it("assignes a slot to the answer in the calculator", () => {
+    spyOn(calculator, "set_slot");
+    calculator.add(1, 4);
+    calculator.set_slot(1);
+    expect(calculator.set_slot).toHaveBeenCalledWith(1);
+  });
 
-    it("multiply negative numbers and returns the product", function(){
-         expect(Calc.multiply(-1,-1)).toBe(1)
-    })
-})
+  // get_solt
+  it("gets the answer in a specific slot", () => {
+    calculator.add(1, 20);
 
-// describe("last function ", function(){
-//     it("it should return the last results")
-//     expect(calculator.last().toBe(1))
-// })
-
-// describe("set slot function", function(){
-//     it("it should allocate a memory slot to the results")
-//     expect(calculator.set_slot().toBe())
-// })
-
-// describe("get slot function", function(){
-//     it("it should get the value from the memory slot")
-//     expect(calculator.get_slot().toBe())
-// })
+    calculator.last();
+    calculator.set_slot(1);
+    expect(calculator.get_slot(1)).toBe(21);
+  });
+});
